@@ -11,14 +11,10 @@ interface Config {
   mqttBroker: string;
   mqttPassword: string;
   mqttUser: string;
-  validTokens: ValidToken[];
+  validTokens: any[];
   issuer: string;
   audience: string;
   serverCert: string;
   algorithm: string;
   gateClaim: string;
-}
-interface ValidToken {
-  client: string;
-  key: string;
 }
