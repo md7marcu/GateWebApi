@@ -28,6 +28,7 @@
     "fs": "0.0.1-security",
     "http": "0.0.0",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "mocha": "^9.0.3",
     "moment": "^2.22.2",
     "mongoose": "^5.13.5",
