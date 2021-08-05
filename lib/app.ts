@@ -5,12 +5,20 @@ import { OAuthGateRoutes } from "./routes/OAuthGateRoutes";
 import { MessageBus } from "./notifications/MessageBus";
 import { GpioController } from "./controllers/GpioController";
 import { Gpio } from "./facades/gpio";
-import * as http from "http";
+import * as https from "https";
 import Debug from "debug";
+import * as fs from "fs";
+import { config } from "node-config-ts";
+
 const debug = Debug("GateWebApi");
 
+const httpsOptions = {
+    key: fs.readFileSync("./" + config.settings.appKey),
+    cert: fs.readFileSync("./" + config.settings.appCert),
+ };
+
 class App {
-    public server: http.Server;
+    public server: https.Server;
     private app: express.Application;
     private gateRoute: GateRoutes = new GateRoutes();
     private oauthRoute: OAuthGateRoutes = new OAuthGateRoutes();
@@ -21,7 +29,7 @@ class App {
     constructor() {
         debug("Constructing app.");
         this.app = express();
-        this.server = http.createServer(this.app);
+        this.server = https.createServer(httpsOptions, this.app);
         this.config();
         this.gpio = new Gpio();
         this.gpio.ready.then(() => {

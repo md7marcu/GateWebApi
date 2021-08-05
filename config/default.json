@@ -1,20 +1,24 @@
 {    
-    "gateOpenPin": 12,
-    "gateClosedPin": 13,
-    "gatePin":  26,
-    "gateMoveDelay": 1000,
-    "defaultWiringPiMode": "gpio",
-    "client":"",
-    "mac":"",
-    "mqttGateTopic": "/house/gate/state",
-    "mqttBroker": "",
-    "mqttPassword": "",
-    "mqttUser": "",
-    "validTokens": [
-    ],
-    "issuer": "authorize.ultrakompis.com",
-    "audience": "api.ultrakompis.com",
-    "serverCert": "/config/serverCert.pem",
-    "algorithm": "RS256",
-    "gateClaim": "gate"
+    "settings": {
+        "gateOpenPin": 12,
+        "gateClosedPin": 13,
+        "gatePin":  26,
+        "gateMoveDelay": 1000,
+        "defaultWiringPiMode": "gpio",
+        "client":"",
+        "mac":"",
+        "mqttGateTopic": "/house/gate/state",
+        "mqttBroker": "",
+        "mqttPassword": "",
+        "mqttUser": "",
+        "validTokens": [
+        ],
+        "issuer": "authorize.ultrakompis.com",
+        "audience": "api.ultrakompis.com",
+        "serverCert": "/config/serverCert.pem",
+        "appKey": "/config/tests/testkey.pem",
+        "appCert": "/config/tests/testcert.pem",
+        "algorithm": "RS256",
+        "gateClaim": "gate"
+    }
 }

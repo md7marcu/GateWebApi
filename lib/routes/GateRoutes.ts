@@ -36,11 +36,11 @@ export class GateRoutes {
 
         app.post("/MoveGate", passport.authenticate("bearer", { session: false}),
             (req: Request, res: Response) => {
-                gpio.setupOutputPin(config.gatePin);
-                gpio.write(config.gatePin, 1);
+                gpio.setupOutputPin(config.settings.gatePin);
+                gpio.write(config.settings.gatePin, 1);
                 debug("MoveGate: Written 1.");
-                sleep(config.gateMoveDelay);
-                gpio.write(config.gatePin, 0);
+                sleep(config.settings.gateMoveDelay);
+                gpio.write(config.settings.gatePin, 0);
                 debug("MoveGate: Written 0.");
 
                 res.status(200).send({

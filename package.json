@@ -7,7 +7,7 @@
     "auto": "./node_modules/nodemon/bin/nodemon.js",
     "test": "cross-env NODE_ENV=windows mocha -exit --timeout '60000' -r ts-node/register test/**/*.spec.ts",
     "test-dev": "cross-env NODE_ENV=windows nodemon -L --watch . --ext ts --exec \"mocha --timeout '60000' -r ts-node/register test/**/*.spec.ts\"",
-    "build": "tsc",
+    "build": "tsc && cp ./config/cert.pem config/serverCert.pem",
     "dev": "cross-env DEPLOYMENT=staging ts-node ./lib/server.ts",
     "start": "cross-env DEPLOYMENT=staging nodemon ./dist/server.js",
     "prod": "cross-env DEPLOYMENT=production npm run build && npm run start",

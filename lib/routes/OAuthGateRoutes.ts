@@ -34,11 +34,11 @@ export class OAuthGateRoutes {
 
         app.post("/V2/MoveGate", this.retrieveAccessToken, this.requireAccessToken, this.requireGateClaim,
             (req: IRequest, res: Response) => {
-                gpio.setupOutputPin(config.gatePin);
-                gpio.write(config.gatePin, 1);
+                gpio.setupOutputPin(config.settings.gatePin);
+                gpio.write(config.settings.gatePin, 1);
                 debug("MoveGate: Written 1.");
-                sleep(config.gateMoveDelay);
-                gpio.write(config.gatePin, 0);
+                sleep(config.settings.gateMoveDelay);
+                gpio.write(config.settings.gatePin, 0);
                 debug("MoveGate: Written 0.");
 
                 res.status(200).send("Gate moved successfully");
@@ -65,7 +65,7 @@ export class OAuthGateRoutes {
     private requireGateClaim = (req: IRequest, res: Response, next: NextFunction) => {
         let claims = (req.access_token as any).claims;
 
-        if (claims && claims.includes(config.gateClaim)) {
+        if (claims && claims.includes(config.settings.gateClaim)) {
             next();
         }
         res.status(401).send();
@@ -74,7 +74,7 @@ export class OAuthGateRoutes {
 
     private retrieveAccessToken = (req: IRequest, res: Response, next: NextFunction) => {
         // get the auth servers public key
-        let serverCert = Fs.readFileSync(path.join(process.cwd(), config.serverCert)).toString();
+        let serverCert = Fs.readFileSync(path.join(process.cwd(), config.settings.serverCert)).toString();
         let publicKey = pki.publicKeyToPem(pki.certificateFromPem(serverCert).publicKey);
         let accessToken = this.getAccessToken(req);
 
@@ -135,11 +135,11 @@ export class OAuthGateRoutes {
     private getVerifyOptions = () => {
         let verifyOptions: VerifyOptions = {};
 
-        verifyOptions.issuer = config.issuer;
-        verifyOptions.audience = config.audience;
+        verifyOptions.issuer = config.settings.issuer;
+        verifyOptions.audience = config.settings.audience;
         verifyOptions.ignoreNotBefore = false;
         verifyOptions.ignoreExpiration = false;
-        verifyOptions.algorithms = [config.algorithm];
+        verifyOptions.algorithms = [config.settings.algorithm];
 
         return verifyOptions;
     }

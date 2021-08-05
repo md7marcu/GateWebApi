@@ -15,18 +15,18 @@ export class GpioController {
     }
 
     public setupGate(): void {
-        this.gpio.setupOutputPin(config.gatePin);
-        let value = this.gpio.read(config.gatePin);
+        this.gpio.setupOutputPin(config.settings.gatePin);
+        let value = this.gpio.read(config.settings.gatePin);
         debug(`gate: ${value}`);
     }
 
     public setupGateSensors(): void {
-        this.gpio.setupInput(config.gateOpenPin);
-        this.gpio.setPullDown(config.gateOpenPin);
-        this.gpio.setupInput(config.gateClosedPin);
-        this.gpio.setPullDown(config.gateClosedPin);
-        let open = this.gpio.read(config.gateOpenPin);
-        let closed = this.gpio.read(config.gateClosedPin);
+        this.gpio.setupInput(config.settings.gateOpenPin);
+        this.gpio.setPullDown(config.settings.gateOpenPin);
+        this.gpio.setupInput(config.settings.gateClosedPin);
+        this.gpio.setPullDown(config.settings.gateClosedPin);
+        let open = this.gpio.read(config.settings.gateOpenPin);
+        let closed = this.gpio.read(config.settings.gateClosedPin);
         debug(`open/closed: ${open}/${closed}`);
     }
 
@@ -34,32 +34,32 @@ export class GpioController {
         this.setupGateSensors();
         this.setupGate();
 
-        this.gpio.setRisingInterrupt(config.gateOpenPin, (delta) => {
+        this.gpio.setRisingInterrupt(config.settings.gateOpenPin, (delta) => {
                 // Triggered when it comes back high again
                 this.bus.notifyGateOpened();
                 // Push notification
-                this.notify(`Pin ${config.gateOpenPin} changed to HIGH ${delta}`);
+                this.notify(`Pin ${config.settings.gateOpenPin} changed to HIGH ${delta}`);
         });
 
-        this.gpio.setFallingInterrupt(config.gateOpenPin, (delta) => {
+        this.gpio.setFallingInterrupt(config.settings.gateOpenPin, (delta) => {
             // Triggered when it comes back high again
             this.bus.notifyGateMoving();
             // Push notification
-            this.notify(`Pin ${config.gateOpenPin} changed to LOW ${delta}`);
+            this.notify(`Pin ${config.settings.gateOpenPin} changed to LOW ${delta}`);
     });
 
-        this.gpio.setRisingInterrupt(config.gateClosedPin, (delta) => {
+        this.gpio.setRisingInterrupt(config.settings.gateClosedPin, (delta) => {
             // Triggered when it comes back high again
             this.bus.notifyGateClosed();
             // Push notification
-            this.notify(`Pin ${config.gateClosedPin} changed to HIGH ${delta}`);
+            this.notify(`Pin ${config.settings.gateClosedPin} changed to HIGH ${delta}`);
         });
 
-        this.gpio.setFallingInterrupt(config.gateClosedPin, (delta) => {
+        this.gpio.setFallingInterrupt(config.settings.gateClosedPin, (delta) => {
             // Triggered when it comes back high again
             this.bus.notifyGateMoving();
             // Push notification
-            this.notify(`Pin ${config.gateClosedPin} changed to LOW ${delta}`);
+            this.notify(`Pin ${config.settings.gateClosedPin} changed to LOW ${delta}`);
         });
     }
 

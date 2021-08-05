@@ -14,7 +14,7 @@ export class Gpio {
             debug("Running on windows. Setting up fake wiringpi");
             this.ready = new Promise((resolve) => {
                 this.wpi = gpio as any;
-                this.wpi.setup(config.defaultWiringPiMode);
+                this.wpi.setup(config.settings.defaultWiringPiMode);
                 resolve(this.wpi);
             });
         } else { // Dynamically import node-wiring-pi
@@ -23,7 +23,7 @@ export class Gpio {
                 // @ts-ignore - Ignore if the package is not found (windows). Always verified
                 import(gpio).then(result => {
                     this.wpi = result;
-                    this.wpi.setup(config.defaultWiringPiMode);
+                    this.wpi.setup(config.settings.defaultWiringPiMode);
                     resolve(this.wpi);
                 });
             });

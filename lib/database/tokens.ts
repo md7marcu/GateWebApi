@@ -3,7 +3,7 @@ import { config } from "node-config-ts";
 
 const Tokens = {
     findToken(token, callBack){
-        let found = find(config.validTokens, ["key", token])
+        let found = find(config.settings.validTokens, ["key", token])
 
         return callBack(null, found !== undefined);            
     }

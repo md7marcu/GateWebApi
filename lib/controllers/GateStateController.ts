@@ -10,8 +10,8 @@ export class GateStateController {
     }
 
     public getState(): string {
-        let open = this.gpio.read(config.gateOpenPin);
-        let closed = this.gpio.read(config.gateClosedPin);
+        let open = this.gpio.read(config.settings.gateOpenPin);
+        let closed = this.gpio.read(config.settings.gateClosedPin);
 
         if (open === 1 && closed === 1) {
             return GateStatus.Open;

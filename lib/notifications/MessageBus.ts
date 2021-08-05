@@ -16,7 +16,7 @@ export class MessageBus {
     constructor(server: http.Server, gpio: Gpio) {
         this.io = socketio.listen(server);
         this.gpio = gpio;
-        this.mqttClient = connect(`mqtt://${config.mqttUser}:${config.mqttPassword}@${config.mqttBroker}`, {});
+        this.mqttClient = connect(`mqtt://${config.settings.mqttUser}:${config.settings.mqttPassword}@${config.settings.mqttBroker}`, {});
         this.initBus();
     }
 
@@ -86,6 +86,6 @@ export class MessageBus {
     private publishMqtt = (position: string) => {
         let payload = JSON.stringify({ state: position});
         debug(`Publishing: ${payload}`);
-        this.mqttClient.publish(config.mqttGateTopic, payload, { qos: 2});
+        this.mqttClient.publish(config.settings.mqttGateTopic, payload, { qos: 2});
     }
 }

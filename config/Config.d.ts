@@ -1,5 +1,8 @@
 /* tslint:disable */
 interface Config {
+  settings: Settings;
+}
+interface Settings {
   gateOpenPin: number;
   gateClosedPin: number;
   gatePin: number;
@@ -15,6 +18,8 @@ interface Config {
   issuer: string;
   audience: string;
   serverCert: string;
+  appKey: string;
+  appCert: string;
   algorithm: string;
   gateClaim: string;
 }
