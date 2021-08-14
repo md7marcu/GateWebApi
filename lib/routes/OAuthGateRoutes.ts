@@ -67,6 +67,8 @@ export class OAuthGateRoutes {
 
         if (claims && claims.includes(config.settings.gateClaim)) {
             next();
+
+            return;
         }
         res.status(401).send();
         next("Unauthorized");
@@ -90,6 +92,8 @@ export class OAuthGateRoutes {
             res.status(401).send(JSON.stringify(err));
             // tslint:disable-next-line:whitespace
             next(err.message);
+
+            return;
         }
 
         if (decodedToken) {
