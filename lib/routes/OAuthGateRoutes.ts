@@ -10,10 +10,12 @@ import * as path from "path";
 import { pki }from "node-forge";
 import { VerifyOptions, verify } from "jsonwebtoken";
 import Debug from "debug";
+import { union } from "lodash";
+
 const debug = Debug("GateWebApi");
 
 interface IRequest extends Request {
-    access_token: string;
+    access_token: any;
 }
 
 export class OAuthGateRoutes {
@@ -63,7 +65,7 @@ export class OAuthGateRoutes {
     }
 
     private requireGateClaim = (req: IRequest, res: Response, next: NextFunction) => {
-        let claims = (req.access_token as any).claims;
+        let claims = union(req.access_token.claims, req.access_token.scope);
 
         if (claims && claims.includes(config.settings.gateClaim)) {
             next();
@@ -118,12 +120,12 @@ export class OAuthGateRoutes {
     // It might be in the body or in the query
     // It shouldn't be, but it might
     private getAccessToken = (req: IRequest): string => {
-        let authHeader = req.headers[this.AUTH_HEADER];
+        let authHeader = req.headers[this.AUTH_HEADER] as string;
         let token: string = "";
 
-        if (authHeader && authHeader.toString().toLowerCase().indexOf("bearer") === 0) {
+        if (authHeader && authHeader.toString().toLowerCase().indexOf("ey") === 0) {
             debug(`Found token in header.`);
-            token = authHeader.slice("bearer ".length).toString();
+            token = authHeader.replace("Bearer ", "");
         } else if (req.body && req.body.access_token) {
             debug(`Found token in body.`);
             token = req.body.access_token.toString();
