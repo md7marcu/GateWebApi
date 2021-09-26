@@ -30,6 +30,7 @@ jobs:
     - run: npm run build --if-present
     - run: npm test    
   docker:
+    if: success()
     runs-on: ubuntu-latest
     steps:
       -
